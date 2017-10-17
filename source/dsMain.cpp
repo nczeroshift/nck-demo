@@ -27,7 +27,7 @@
 #include "scenes/dsSceneMetaballs.h"
 
 // Para correr sem audio usar NULL
-#define AUDIO_STREAM        "audio://08_ps_-_wait_while_i_fall_asleep_short.ogg"
+#define AUDIO_STREAM        "audio://demobit2017.ogg"
 #define AUDIO_SAMPLERATE    44100
 #define AUDIO_BUFFERS       4
 #define AUDIO_FFT           2048
@@ -142,15 +142,15 @@ public:
             scene->AddStage(0e6, 40e6, sysInit);
 
             std::string texts[] = {
-                "Time remaining to Demobit 2017: 2 Months",
-                "Attempting demo making...",
-                "Failure - Impossible to implement concept",
-                "Time remaining to Demobit 2017: 1 Month",
-                "Attempting demo making...",
-                "Failure - Impossible to implement concept",
-                "Time remaining to Demobit 2017: 2 Weeks",
+                "62 days to Demobit 2017",
+				"Generating demo...",
+                "Resource failure",
+                "31 days to Demobit 2017",
+                "Generating demo...",
+                "Resource failure",
+                "15 days to Demobit 2017",
                 "Connecting to human-machine interfaces...",
-                "Found 3 interfaces",
+                "3 usable interfaces found",
             };
 
             for (int i = 0; i < 9; i++) {
@@ -294,7 +294,7 @@ public:
                 dsSceneFloat_Text_Attached * attached = new dsSceneFloat_Text_Attached(data, map);
                 attached->setId("Porto");
                 attached->setType(3);
-                attached->SetDimensions(400, 160);
+                attached->SetDimensions(650, 160);
                 attached->SetAnimation(Math::Vec2(1000, 100), Math::Vec2(1000, 150), 0.3e6, 0.15e6);
                 attached->Load();
                 scene->AddStage(50e6, 60e6, attached);
@@ -427,7 +427,7 @@ public:
 
                 std::string texts[] = {
                     "Demo concept implemented successfully",
-                    "Thanks lazy humans",
+                    "Thank you lazy humans",
                 };
 
                 for (int i = 0; i < 2; i++) {

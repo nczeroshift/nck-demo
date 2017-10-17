@@ -111,54 +111,49 @@ void dsSceneFloat_Text::setType(int usage) {
 		this->usage.push_back(" >Enough Records");
     }
     else if (usage == 3) {
-        this->usage.push_back("Inercia Demoparty");
-        this->usage.push_back("party like it's 2005!");
+        this->usage.push_back("... and don't forget to come");
+        this->usage.push_back("to Inércia Demoparty 2005!");
     }
     else if (usage == 4) {
-        this->usage.push_back("Breeze Demoparty");
-        this->usage.push_back("2007");
-        this->usage.push_back("Hi Xrl/Jeenio/Mr.Hugo!");
+        this->usage.push_back("Breeze! Vamos à Breeze!");
+        this->usage.push_back("Hi Xrl, Mr.Hugo, Jeenio!");
     }
     else if (usage == 5) {
         // Madrid
         this->usage.push_back("Playboy Mansion Party");
-        this->usage.push_back("2006");
         this->usage.push_back("Sushi food poisoning hangover is so nice");
     }
     else if (usage == 6) {
         // Bilbau
         this->usage.push_back("Euskal");
-        this->usage.push_back("Hi Software Failure/Ham!");
-        this->usage.push_back("Greetz to ASD/Navis");
+        this->usage.push_back("Hi Ham, Stage 7!");
+        this->usage.push_back("Greetz to Navis/ASD");
     }
     else if (usage == 7) {
         // Thoiseey
         this->usage.push_back("V.I.P.");
-        this->usage.push_back("Forsaken by Destiny!");
+        this->usage.push_back("Forsaken by destiny!");
     }
     else if (usage == 8) {
         // Merseille / Arles
         this->usage.push_back("Main Party");
-        this->usage.push_back("1500m^2 screen and mosquitoes!");
+        this->usage.push_back("1500m^2 screen with mosquitoes!");
     }
     else if (usage == 10) {
         // Berne
         this->usage.push_back("Buenzli/Demodays");
-        this->usage.push_back("Coweee");
+        this->usage.push_back("Coweees for everyone!");
     }
     else if (usage == 12) {
         // Brno
         this->usage.push_back("ResetKani");
-        this->usage.push_back("2012");
     }
     else if (usage == 13) {
         // Trencin
         this->usage.push_back("Forever");
-        this->usage.push_back("ZX Forever!");
     } else if (usage == 14) {
         // Trencin
-        this->usage.push_back("Demobit");
-        this->usage.push_back("2017");
+        this->usage.push_back("Demobit 2017");
         this->usage.push_back("Hi everyone!");
         this->usage.push_back("Awesome party!");
     } else if (usage == 99) {
@@ -171,10 +166,12 @@ void dsSceneFloat_Text::setType(int usage) {
         this->usage.push_back("and menger sponge");
     }
     else if (usage == 10001) {
-        this->usage.push_back("fuckings to last minute bugs");
+        this->usage.push_back("Fuckings to last minute bugs");
+		this->usage.push_back("Greetings to Acession only");
+		this->usage.push_back("... and you!");
     }
     else if (usage == 10002) {
-        this->usage.push_back("partycoding");
-        this->usage.push_back("...");
+        this->usage.push_back("Partycoding");
+        this->usage.push_back("like a boss");
     }
 }
