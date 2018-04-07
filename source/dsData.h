@@ -41,6 +41,10 @@ public:
     Gui::ShapeRenderer * GetShapeRenderer();
     Gui::WidgetRenderer * GetWidgetRenderer();
 
+    void GetProgramKeys(std::vector<std::string> * names);
+    void GetTextureKeys(std::vector<std::string> * names);
+    void GetCompoundsKeys(std::vector<std::string> * names);
+
     Graph::Program * LoadProgram(const std::string & filename);
     Graph::Texture * LoadTexture(const std::string & filename);
     Compound * LoadCompound(const std::string & filename);

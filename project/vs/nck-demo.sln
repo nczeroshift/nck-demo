@@ -3,16 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "math", "..\..\..\nctoolkit\project\vs2015\math\math.vcxproj", "{7FE95AC8-8993-429D-A961-5AC145B5EEAB}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "math", "..\..\..\nctoolkit\project\vs\math\math.vcxproj", "{7FE95AC8-8993-429D-A961-5AC145B5EEAB}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "core", "..\..\..\nctoolkit\project\vs2015\core\core.vcxproj", "{C4B8E54B-9035-4728-8963-CC9F08E330E9}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "core", "..\..\..\nctoolkit\project\vs\core\core.vcxproj", "{C4B8E54B-9035-4728-8963-CC9F08E330E9}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "graphics", "..\..\..\nctoolkit\project\vs2015\graphics\graphics.vcxproj", "{A7F70601-E0B9-481D-9891-D2B0D41062D1}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "graphics", "..\..\..\nctoolkit\project\vs\graphics\graphics.vcxproj", "{A7F70601-E0B9-481D-9891-D2B0D41062D1}"
 	ProjectSection(ProjectDependencies) = postProject
 		{C4B8E54B-9035-4728-8963-CC9F08E330E9} = {C4B8E54B-9035-4728-8963-CC9F08E330E9}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "scene", "..\..\..\nctoolkit\project\vs2015\scene\scene.vcxproj", "{8864A343-ACDA-400C-8B9B-92310E38C8BA}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "scene", "..\..\..\nctoolkit\project\vs\scene\scene.vcxproj", "{8864A343-ACDA-400C-8B9B-92310E38C8BA}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A7F70601-E0B9-481D-9891-D2B0D41062D1} = {A7F70601-E0B9-481D-9891-D2B0D41062D1}
 		{C4B8E54B-9035-4728-8963-CC9F08E330E9} = {C4B8E54B-9035-4728-8963-CC9F08E330E9}
@@ -20,9 +20,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "scene", "..\..\..\nctoolkit
 		{7FE95AC8-8993-429D-A961-5AC145B5EEAB} = {7FE95AC8-8993-429D-A961-5AC145B5EEAB}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gui", "..\..\..\nctoolkit\project\vs2015\gui\gui.vcxproj", "{89D139B7-4583-4241-B851-540949559E16}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gui", "..\..\..\nctoolkit\project\vs\gui\gui.vcxproj", "{89D139B7-4583-4241-B851-540949559E16}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "audio", "..\..\..\nctoolkit\project\vs2015\audio\audio.vcxproj", "{E29D2E2E-2D8D-4D7D-8CC5-8B1681E5DEA9}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "audio", "..\..\..\nctoolkit\project\vs\audio\audio.vcxproj", "{E29D2E2E-2D8D-4D7D-8CC5-8B1681E5DEA9}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "application", "application\application.vcxproj", "{E17F8BD0-E6BF-402D-90E8-62BA46E37AE3}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -36,18 +36,18 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "application", "application\
 		{7FE95AC8-8993-429D-A961-5AC145B5EEAB} = {7FE95AC8-8993-429D-A961-5AC145B5EEAB}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tinyxml", "..\..\..\nctoolkit\project\vs2015\tinyxml\tinyxml.vcxproj", "{C2308909-2D84-4B03-997F-2298D5FB72F7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tinyxml", "..\..\..\nctoolkit\project\vs\tinyxml\tinyxml.vcxproj", "{C2308909-2D84-4B03-997F-2298D5FB72F7}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "network", "..\..\..\nctoolkit\project\vs2015\network\network.vcxproj", "{71AF2EC4-6F87-432D-ACA8-3EAE072CB33C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "network", "..\..\..\nctoolkit\project\vs\network\network.vcxproj", "{71AF2EC4-6F87-432D-ACA8-3EAE072CB33C}"
 	ProjectSection(ProjectDependencies) = postProject
 		{C4B8E54B-9035-4728-8963-CC9F08E330E9} = {C4B8E54B-9035-4728-8963-CC9F08E330E9}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "video", "..\..\..\nctoolkit\project\vs2015\video\video.vcxproj", "{837A4DA2-D573-47FB-966C-A71838B33630}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "video", "..\..\..\nctoolkit\project\vs\video\video.vcxproj", "{837A4DA2-D573-47FB-966C-A71838B33630}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "io", "..\..\..\nctoolkit\project\vs2015\io\io.vcxproj", "{DB951CD7-57E2-4761-81FA-BBA23E7FCDEE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "io", "..\..\..\nctoolkit\project\vs\io\io.vcxproj", "{DB951CD7-57E2-4761-81FA-BBA23E7FCDEE}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bxon", "..\..\..\nctoolkit\project\vs2015\bxon\bxon.vcxproj", "{7EF41192-D2D5-4A3E-AED9-FEC97C599A79}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bxon", "..\..\..\nctoolkit\project\vs\bxon\bxon.vcxproj", "{7EF41192-D2D5-4A3E-AED9-FEC97C599A79}"
 	ProjectSection(ProjectDependencies) = postProject
 		{C4B8E54B-9035-4728-8963-CC9F08E330E9} = {C4B8E54B-9035-4728-8963-CC9F08E330E9}
 		{7FE95AC8-8993-429D-A961-5AC145B5EEAB} = {7FE95AC8-8993-429D-A961-5AC145B5EEAB}

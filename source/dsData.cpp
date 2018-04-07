@@ -122,6 +122,7 @@ Compound * Data::LoadCompound(const std::string & filename) {
     m_Compounds.insert(std::pair<std::string, Compound*>(filename,ret));
     return ret;
 }
+
 Compound * Data::LoadCompound(const std::string & filename, Scene::Processor * processor) {
     std::map<std::string, Compound*>::iterator i = m_Compounds.find(filename);
     if (i != m_Compounds.end())
@@ -195,6 +196,27 @@ float Data::GetHeight() {
 
 float Data::GetWidth() {
     return window->GetWidth();
+}
+
+void Data::GetProgramKeys(std::vector<std::string> * names) {
+    names->reserve(m_Programs.size());
+    MapFor(std::string, Graph::Program *, m_Programs, i) {
+        names->push_back(i->first);
+    }
+}
+
+void Data::GetTextureKeys(std::vector<std::string> * names) {
+    names->reserve(m_Programs.size());
+    MapFor(std::string, Graph::Texture *, m_Textures, i) {
+        names->push_back(i->first);
+    }
+}
+
+void Data::GetCompoundsKeys(std::vector<std::string> * names) {
+    names->reserve(m_Programs.size());
+    MapFor(std::string, Graph::Texture *, m_Textures, i) {
+        names->push_back(i->first);
+    }
 }
 
 /*

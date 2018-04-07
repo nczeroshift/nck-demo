@@ -1,0 +1,168 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>nctoolkit</title>
+        <script type="text/javascript" src="jquery-1.6.4.min.js"></script> 
+        <link rel="stylesheet" href="index.css" type="text/css">
+        <script src="/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+    </head>
+    <body>
+        
+    <div class="preview">
+        <div class="header">
+            <h1>preview</h1>
+        </div>
+        <div class="content">
+        <canvas id="mainCanvas"></canvas>
+        </div>
+    </div>
+     
+    <div class="timeline">
+        <div class="header">
+            <h1>timeline</h1>
+        </div>
+        <div class="content">
+        </div>
+    </div>
+    
+    <div class="editor">
+        <div class="header">
+            <h1>source</h1>
+            <select class="src_files">
+                <option value>none</option>
+            </select>
+            <button class="compile">Update</button>
+        </div>
+        <div class="content">
+            <div id="src_code"></div>
+        </div>
+    </div>
+    
+    <script type="text/javascript">
+         var editor ;
+    
+        function fetchResources(callback){
+            $.ajax({
+                url:"/x/data?resources",
+                success: function(data) {
+                   if(callback)callback(data);
+                }
+            });
+        }
+        
+        
+        function fetchShaderSource(shaderPath,callback){
+            $.ajax({
+                url:"/x/data?shader_src="+shaderPath,
+                contentType:"application/javascript",
+                success: function(data) {
+                   if(callback)callback(data);
+                }
+            });
+        }
+        
+         function saveShaderSourceAndUpdate(shaderPath,content,callback){
+            $.ajax({
+                url:"/x/data?update_shader="+shaderPath,
+                contentType:"application/javascript",
+                method:"POST",
+                type:"POST",
+                data:content,
+                success: function(data) {
+                   if(callback)callback(data);
+                }
+            });
+        }
+        
+        
+        function startPreview(){
+            var canvasW =  $("#mainCanvas");
+            var canvas = canvasW[0];
+            var width = canvasW.width();
+            var height = canvasW.height();
+            
+            canvasW.attr({width:width,height:height});
+            var context = canvas.getContext("2d");
+            var id = 0;
+      
+            //context.scale(0.25,0.25)
+            function paintImage(){
+                var img = new Image();
+                img.onload = function(){
+                    width = canvasW.width();
+                    height = canvasW.height();
+                    var scale = (width / img.width)*0.95;
+                    var w = scale * img.width;
+                    var h = scale * img.height;
+                    var x = (width - w)*0.5;
+                    var y = (height - h)*0.5;
+                    
+
+                    context.clearRect(0, 0, width, height);
+                    context.drawImage(img,x,y,w,h);
+                    setTimeout(paintImage,1000);
+                }
+                img.src="/x/data.jpg?screenshot="+id;
+                id+=1;
+            }
+
+            $(window).resize(function(){
+                var width = canvasW.width();
+                var height = canvasW.height();
+                canvasW.attr({width:width,height:height});
+            });
+            
+            paintImage();
+        }
+        
+        $(document).ready(function(){  
+
+            editor = ace.edit("src_code");
+            editor.setTheme("ace/theme/monokai");
+            editor.session.setMode("ace/mode/glsl");
+    
+            startPreview();
+            //var js = {resources:"list"};
+            //var js_str = JSON.stringify(js);
+            //data:js_str,
+            
+            $(".src_files").change(function(){
+                if($(this).val().trim().length == 0){
+                editor.setValue("");
+                   // $(".editor .content .src_code").html("");
+                    return;
+                }
+                fetchShaderSource($(this).val(),function(data){
+                     //$(".editor .content .src_code").html(data);
+                     editor.setValue(data);
+                     editor.clearSelection();
+                });
+            });
+            
+            $(".compile").click(function(){
+                saveShaderSourceAndUpdate($(".src_files").val(),editor.getValue(),function(data){
+                });
+                //console.log(editor.getValue());
+            });
+            
+            fetchResources(function(data){
+                if(!data)
+                    return;
+                
+                var progs = data["programs"];
+                if( (progs = data["programs"]) ){
+                        for(var i = 0;i<progs.length;i++){
+                            $(".src_files").append("<option value=\""+progs[i]+"\">"+progs[i]+"</option>");
+                        }
+                        
+                        //var p1 = data["programs"][0];
+                        //console.log(p1);
+                }
+            });
+           
+            
+        });
+    </script>
+
+</body>
+</html>

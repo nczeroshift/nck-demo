@@ -12,6 +12,7 @@
 #include "dsStage.h"
 #include "tinyxml.h"
 #include "dsSceneLoading.h"
+#include "dsServer.h"
 
 _DS_BEGIN
 
@@ -89,6 +90,7 @@ protected:
     Graph::Device   * dev;          // Dispositivo de gráfico
     Core::Window    * wnd;
     dsSceneLoading * loading;
+    Server * server;
 };
 
 _DS_END

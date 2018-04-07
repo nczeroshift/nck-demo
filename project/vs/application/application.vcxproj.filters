@@ -25,6 +25,9 @@
     <Filter Include="Source Files\timeline">
       <UniqueIdentifier>{03f7f12d-a3a4-4b77-9489-c55fc3f01d82}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\server">
+      <UniqueIdentifier>{9f5d5524-26eb-44a2-93b6-fe74c05eded9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\source\win32\appicon.ico">
@@ -91,6 +94,15 @@
     <ClInclude Include="..\..\..\source\win32\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\scenes\dsTestScene.h">
+      <Filter>Source Files\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\dsServer.h">
+      <Filter>Source Files\server</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\dsMain.h">
+      <Filter>Source Files\app</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\dsAudioFFT.cpp">
@@ -143,6 +155,12 @@
     </ClCompile>
     <ClCompile Include="..\..\..\source\scenes\dsOutputPostProcess.cpp">
       <Filter>Source Files\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\scenes\dsTestScene.cpp">
+      <Filter>Source Files\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\dsServer.cpp">
+      <Filter>Source Files\server</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

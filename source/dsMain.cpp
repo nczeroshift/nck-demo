@@ -31,7 +31,8 @@ dsMain::dsMain(Core::Window * window) : Threadable() {
     timer = Core::CreateChronometer();
     frTime = Core::CreateChronometer();
     shpRender = NULL;
-      
+    server = NULL;
+
     for (int i = 0; i < 3; i++) {
         reloadShaderFlag[i] = 0;
         reloadTextureCounter[i] = 0;
@@ -120,6 +121,9 @@ void dsMain::Run() {
         //data->LoadTimeline(&timeline);
 
         renderLoading(99.9);
+
+        server = new Server(data);
+        server->Start();
     }
     catch (const Core::Exception & ex) {
         ex.PrintStackTrace();
@@ -142,10 +146,21 @@ void dsMain::Run() {
         
     while (!IsTearingDown())
     {
+        if (server) {
+            if (!server->FreeRun()) {
+                Core::Thread::Wait(32);
+            }
+        }
+
         dev->ClearColor(0, 0, 0, 1);
         dev->Clear();       
 
-        if (reloadResources) {
+        bool serverReload = false;
+        if (server) {
+            serverReload = server->ReloadContents();
+        }
+
+        if (reloadResources || serverReload) {
             rShaders = data->ReloadShaders();
             rCompounds = data->ReloadCompounds();
             rTextures = data->ReloadTextures();
@@ -177,6 +192,9 @@ void dsMain::Run() {
             i->GetObject()->Render(i->GetStart(), i->GetEnd(), time);
         }
         
+        if (server) {
+            server->FetchImage(dev, wnd->GetWidth(), wnd->GetHeight());
+        }
 
         dev->Viewport(0, 0, wnd->GetWidth(), wnd->GetHeight());
 
@@ -518,7 +536,7 @@ void Core::Application_Main(const std::vector<std::string> & CmdLine)
     width *= scale;
     height *= scale;
     
-    bool runDemo = conf->Run(&width, &height, &fullscreen);
+    bool runDemo = true;// conf->Run(&width, &height, &fullscreen);
 
     SafeDelete(conf);
 

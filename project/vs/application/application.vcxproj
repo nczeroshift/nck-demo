@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -14,20 +14,21 @@
     <ProjectGuid>{E17F8BD0-E6BF-402D-90E8-62BA46E37AE3}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>application</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
     <CharacterSet>MultiByte</CharacterSet>
@@ -117,6 +118,8 @@
     <ClInclude Include="..\..\..\source\dsConfig.h" />
     <ClInclude Include="..\..\..\source\dsAudioFFT.h" />
     <ClInclude Include="..\..\..\source\dsData.h" />
+    <ClInclude Include="..\..\..\source\dsMain.h" />
+    <ClInclude Include="..\..\..\source\dsServer.h" />
     <ClInclude Include="..\..\..\source\dsStage.h" />
     <ClInclude Include="..\..\..\source\dsSettings.h" />
     <ClInclude Include="..\..\..\source\dsSubtitles.h" />
@@ -129,6 +132,7 @@
     <ClInclude Include="..\..\..\source\scenes\dsOutputPostProcess.h" />
     <ClInclude Include="..\..\..\source\scenes\dsSceneLoading.h" />
     <ClInclude Include="..\..\..\source\scenes\dsSolidColor.h" />
+    <ClInclude Include="..\..\..\source\scenes\dsTestScene.h" />
     <ClInclude Include="..\..\..\source\win32\resource.h" />
   </ItemGroup>
   <ItemGroup>
@@ -137,6 +141,7 @@
     <ClCompile Include="..\..\..\source\dsCompound.cpp" />
     <ClCompile Include="..\..\..\source\dsData.cpp" />
     <ClCompile Include="..\..\..\source\dsMain.cpp" />
+    <ClCompile Include="..\..\..\source\dsServer.cpp" />
     <ClCompile Include="..\..\..\source\dsStage.cpp" />
     <ClCompile Include="..\..\..\source\dsSettings.cpp" />
     <ClCompile Include="..\..\..\source\dsSubtitles.cpp" />
@@ -149,39 +154,40 @@
     <ClCompile Include="..\..\..\source\scenes\dsOutputPostProcess.cpp" />
     <ClCompile Include="..\..\..\source\scenes\dsSceneLoading.cpp" />
     <ClCompile Include="..\..\..\source\scenes\dsSolidColor.cpp" />
+    <ClCompile Include="..\..\..\source\scenes\dsTestScene.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\nctoolkit\project\vs2015\audio\audio.vcxproj">
+    <ProjectReference Include="..\..\..\..\nctoolkit\project\vs\audio\audio.vcxproj">
       <Project>{e29d2e2e-2d8d-4d7d-8cc5-8b1681e5dea9}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\nctoolkit\project\vs2015\bxon\bxon.vcxproj">
+    <ProjectReference Include="..\..\..\..\nctoolkit\project\vs\bxon\bxon.vcxproj">
       <Project>{7ef41192-d2d5-4a3e-aed9-fec97c599a79}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\nctoolkit\project\vs2015\core\core.vcxproj">
+    <ProjectReference Include="..\..\..\..\nctoolkit\project\vs\core\core.vcxproj">
       <Project>{c4b8e54b-9035-4728-8963-cc9f08e330e9}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\nctoolkit\project\vs2015\graphics\graphics.vcxproj">
+    <ProjectReference Include="..\..\..\..\nctoolkit\project\vs\graphics\graphics.vcxproj">
       <Project>{a7f70601-e0b9-481d-9891-d2b0d41062d1}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\nctoolkit\project\vs2015\gui\gui.vcxproj">
+    <ProjectReference Include="..\..\..\..\nctoolkit\project\vs\gui\gui.vcxproj">
       <Project>{89d139b7-4583-4241-b851-540949559e16}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\nctoolkit\project\vs2015\io\io.vcxproj">
+    <ProjectReference Include="..\..\..\..\nctoolkit\project\vs\io\io.vcxproj">
       <Project>{db951cd7-57e2-4761-81fa-bba23e7fcdee}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\nctoolkit\project\vs2015\math\math.vcxproj">
+    <ProjectReference Include="..\..\..\..\nctoolkit\project\vs\math\math.vcxproj">
       <Project>{7fe95ac8-8993-429d-a961-5ac145b5eeab}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\nctoolkit\project\vs2015\network\network.vcxproj">
+    <ProjectReference Include="..\..\..\..\nctoolkit\project\vs\network\network.vcxproj">
       <Project>{71af2ec4-6f87-432d-aca8-3eae072cb33c}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\nctoolkit\project\vs2015\scene\scene.vcxproj">
+    <ProjectReference Include="..\..\..\..\nctoolkit\project\vs\scene\scene.vcxproj">
       <Project>{8864a343-acda-400c-8b9b-92310e38c8ba}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\nctoolkit\project\vs2015\tinyxml\tinyxml.vcxproj">
+    <ProjectReference Include="..\..\..\..\nctoolkit\project\vs\tinyxml\tinyxml.vcxproj">
       <Project>{c2308909-2d84-4b03-997f-2298d5fb72f7}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\nctoolkit\project\vs2015\video\video.vcxproj">
+    <ProjectReference Include="..\..\..\..\nctoolkit\project\vs\video\video.vcxproj">
       <Project>{837a4da2-d573-47fb-966c-a71838b33630}</Project>
     </ProjectReference>
   </ItemGroup>
