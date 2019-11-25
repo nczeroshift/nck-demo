@@ -12,6 +12,15 @@
 
 _DS_BEGIN
 
+
+void ServerOperation::WaitToFinish() {
+	while (!m_Finished) {
+		Core::Thread::Wait(1);
+	}
+	//m_Server->RemoveOperation(this);
+}
+
+
 Server::Server(Data * data) {
     m_Server = NULL;
     m_Data = data;
@@ -21,6 +30,8 @@ Server::Server(Data * data) {
     freeRunFlag = false;
     imageCopyBuffer = NULL;
     imageCompressBuffer = NULL;
+
+	dispatchOpMutex = Core::CreateMutex();
 }
 
 Server::~Server() {
@@ -53,7 +64,6 @@ bool Server::AllowRequest(Network::HttpRequest * request, Network::HttpResponse 
 }
 
 bool Server::HandleRequest(Network::HttpRequest * request, Network::HttpResponse * response) {
-
     if (request->GetMethod() == "GET")
     {
         if (request->HasParameter("screenshot")) {
@@ -84,10 +94,11 @@ bool Server::HandleRequest(Network::HttpRequest * request, Network::HttpResponse
             std::vector<std::string> compStr;
             std::vector<std::string> textStr;
 
+			m_Data->LockAccess();
             m_Data->GetProgramKeys(&progStr);
             m_Data->GetTextureKeys(&textStr);
             m_Data->GetCompoundsKeys(&compStr);
-
+			m_Data->UnlockAccess();
 
             JSONArray arrTex(textStr.size()), arrComp(compStr.size()), arrProg(progStr.size());
             for (int i = 0; i < textStr.size(); i++) arrTex[i] = new JSONValue(textStr[i]);
@@ -126,10 +137,31 @@ bool Server::HandleRequest(Network::HttpRequest * request, Network::HttpResponse
             }
             else
                 response->SetStatusCode(500);
-        }
+		}
+		/*else if (request->HasParameter("shader_errors")) {
+			std::list<std::string> errList;
+			m_Data->LockAccess();
+			m_Data->GetShaderErrors(&errList);
+			m_Data->UnlockAccess();
 
+			JSONArray errorsList(errList.size());
+			int count = 0;
+			ListFor(std::string, errList,i){
+			//for (int i = 0; i < errorsList.size(); i++) {
+				std::string errStr = *i;
+				errorsList[count++] = new JSONValue(errStr);
+			}
 
+			JSONValue * errEntry = new JSONValue(errorsList);
+			JSONObject respObj;
+			respObj.insert(std::pair<std::string, JSONValue*>("errors", errEntry));
 
+			std::string tmp = JSONValue(respObj).Stringify();
+			response->GetBuffer()->Push(tmp);
+			response->SetHeader("Content-Type", "application/json");
+			response->SetStatusCode(200);
+		}
+		*/
     }
     else if (request->GetMethod() == "POST")
     {
@@ -143,7 +175,16 @@ bool Server::HandleRequest(Network::HttpRequest * request, Network::HttpResponse
                 const char * str = content.c_str();
                 fw->Write((uint8_t*)str, content.size());
                 SafeDelete(fw);
-                reloadContents = true;
+
+				ServerOperation sOp(this, SERVER_OP_RELOAD_SHADER, shaderPath);
+				DispatchOperation(&sOp);
+
+				if (!sOp.GetError().empty()) {
+					response->GetBuffer()->Push(sOp.GetError());
+					response->SetHeader("Content-Type", "plain/text");
+
+					//Core::DebugLog(sOp.GetError());
+				}
             }
         }
     }
@@ -151,11 +192,58 @@ bool Server::HandleRequest(Network::HttpRequest * request, Network::HttpResponse
     return true;
 }
 
-void Server::UnsupportedRequest(Network::HttpRequest * request)
+void Server::DispatchOperation(ServerOperation * op) 
 {
+	std::string type = op->GetType();
 
+	dispatchOpMutex->Lock();
+	{
+		std::list<ServerOperation*> list;
+		if (dispatchOps.find(type) != dispatchOps.end())
+			list = dispatchOps.find(type)->second;
+		list.push_back(op);
+
+		MapSet(dispatchOps, std::string, std::list<ServerOperation*>, type, list);
+	}
+	dispatchOpMutex->Unlock();
+
+	op->WaitToFinish();
 }
 
+bool Server::FetchOperation(const std::string & type, ServerOperation ** operation) 
+{
+	dispatchOpMutex->Lock();
+	if (dispatchOps.find(type) != dispatchOps.end()) 
+	{
+		std::list<ServerOperation*> * operations = &(dispatchOps.find(type)->second);
+		if (!operations->empty()) 
+		{
+			*operation = operations->front();
+			operations->pop_front();
+			dispatchOpMutex->Unlock();
+			return true;
+		}
+	}
+	dispatchOpMutex->Unlock();
+
+	return false;
+}
+
+/*
+void Server::RemoveOperation(ServerOperation * op) {
+	dispatchOpMutex->Lock();
+
+	if (dispatchOps.find(op->GetType()) != dispatchOps.end()) {
+		dispatchOps.find(op->GetType())->second.remove(op);
+	}
+
+	dispatchOpMutex->Unlock();
+}
+*/
+
+void Server::UnsupportedRequest(Network::HttpRequest * request){
+
+}
 
 bool Server::FreeRun() {
     bool state = freeRunFlag;

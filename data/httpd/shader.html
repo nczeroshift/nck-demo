@@ -1,0 +1,41 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>shōgun</title>
+        <script type="text/javascript" src="jquery-1.6.4.min.js"></script> 
+
+        <link rel="stylesheet" href="index.css" type="text/css">
+        <script src="/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+
+        <link rel="stylesheet" href="windows/shaders.css" type="text/css">
+   
+        <script src="windows/shaders.js" type="text/javascript" charset="utf-8"></script>
+        <style type="text/css">
+            .shader_full{
+                position:absolute;
+                padding:0;
+                margin:0;
+                left:0;
+                top:0;
+                right:1px;
+                bottom:1px
+            }
+        </style>
+    </head>
+    <body>
+      
+    <div class="wndWrapper shader_full">
+      
+    </div>
+
+    <script type="text/javascript">
+        var shaders = null;
+        $(document).ready(function(){  
+            $(".wndWrapper.shader_full").load("windows/shaders.html",function(){
+               shaders = new wndShaders($(this));
+            });
+        });
+    </script>
+
+</body>
+</html>

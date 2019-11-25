@@ -3,18 +3,36 @@
         <meta charset="UTF-8">
         <title>shōgun</title>
         <script type="text/javascript" src="jquery-1.6.4.min.js"></script> 
+
+        <link rel="stylesheet" href="index.css" type="text/css">
+        <script src="/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+
+        <link rel="stylesheet" href="windows/preview.css" type="text/css">
+        <link rel="stylesheet" href="windows/shaders.css" type="text/css">
+        <!--<link rel="stylesheet" href="windows/timeline.css" type="text/css">-->
+
+        <script src="windows/preview.js" type="text/javascript" charset="utf-8"></script>
+        <script src="windows/shaders.js" type="text/javascript" charset="utf-8"></script>
+        <!--<script src="windows/timeline.js" type="text/javascript" charset="utf-8"></script>-->
     </head>
     <body>
         
-    <h1>shōgun</h1>
+    <div class="wndWrapper preview">
+
+    </div>
+     
+    <!--
+    <div class="wndWrapper timeline">
+      
+    </div>
+    -->
     
-    <a href="https://github.com/nczeroshift/nck-demo">github</a>
-    <p><a href="/preview.html">Open Preview</a></p>
-    <p><a href="/shader.html">Open Shader Editor</a></p>
-    <p><a href="/preview_shader.html">Open Preview & Shader Editor</a></p>
-    
+    <div class="wndWrapper editor">
+      
+    </div>
+
     <script type="text/javascript">
-        /*var shaders = null;
+        var shaders = null;
         var preview = null;
         var timeline = null;
 
@@ -35,7 +53,7 @@
                 if(preview)
                     preview.resize();
             })
-        });*/
+        });
     </script>
 
 </body>

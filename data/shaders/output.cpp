@@ -67,5 +67,5 @@ void main()
 	rgb *= (1.0 + contrast);
 	rgb += brightness;
  
-	gl_FragColor = vec4(rgb,col.a);
+	gl_FragColor = vec4(0.5*rgb,col.a);
 }

@@ -45,6 +45,7 @@ public:
     void GetTextureKeys(std::vector<std::string> * names);
     void GetCompoundsKeys(std::vector<std::string> * names);
 
+	Graph::Program * LoadProgramFromText(const std::string & name, const std::string & source);
     Graph::Program * LoadProgram(const std::string & filename);
     Graph::Texture * LoadTexture(const std::string & filename);
     Compound * LoadCompound(const std::string & filename);
@@ -60,9 +61,15 @@ public:
     float GetHeight();
     float GetWidth();
 
+	void GetShaderErrors(std::list<std::string>  * errors);
     //void LoadTimeline();
 
+	void LockAccess();
+	void UnlockAccess();
+
 private:
+	Core::Mutex * accessMutex;
+	std::list<std::string> shadersErrors;
     int64_t lastTimelineChange;
     TiXmlDocument sceneTimeline;
     Core::Window * window;

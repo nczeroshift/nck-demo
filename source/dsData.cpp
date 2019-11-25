@@ -29,6 +29,8 @@ Data::Data(Core::Window * wnd, Graph::Device * gDev) {
     shapeRenderer = new Gui::ShapeRenderer(gDev);
     widgetRenderer = new Gui::BlenderWidgetRenderer(gDevice, shapeRenderer, fontMap, fontTexture);
     lastTimelineChange = 0;
+
+	accessMutex = Core::CreateMutex();
 }
 
 Data::~Data() {
@@ -54,7 +56,20 @@ Data::~Data() {
 
     SafeDelete(widgetRenderer);
     SafeDelete(shapeRenderer);
-    
+	SafeDelete(accessMutex);
+}
+
+void Data::LockAccess() {
+	accessMutex->Lock();
+}
+
+void Data::UnlockAccess() {
+	accessMutex->Unlock();
+}
+
+void Data::GetShaderErrors(std::list<std::string>  * errors) {
+	if (errors)
+		*errors = shadersErrors;
 }
 
 ReloadResult Data::ReloadTextures() {
@@ -85,19 +100,21 @@ ReloadResult Data::ReloadCompounds() {
 
 ReloadResult Data::ReloadShaders() {
     int total = 0, success = 0;
-    std::list<std::string> errors;
-    total = gDevice->ReloadPrograms(&success, &errors);
-    return ReloadResult(total, success, errors.size());
+	shadersErrors.clear();
+    total = gDevice->ReloadPrograms(&success, &shadersErrors);
+    return ReloadResult(total, success, shadersErrors.size());
 }
 
 ReloadResult Data::ReloadTimeline() {
-    std::string timelineSrc = "script://timeline.cpp";
+    /*
+	std::string timelineSrc = "script://timeline.cpp";
     if (Core::FileReader::Exists(timelineSrc)) {
         int64_t t = Core::GetFileLastModified(timelineSrc);
         if (t > lastTimelineChange) {
 
         }
     }
+	*/
     return ReloadResult(0, 0, 0);
 }
 
@@ -159,6 +176,15 @@ Graph::Program * Data::LoadProgram(const std::string & filename) {
     Graph::Program * ret = gDevice->LoadProgram(filename);
     m_Programs.insert(std::pair<std::string, Graph::Program*>(filename, ret));
     return ret;
+}
+
+Graph::Program * Data::LoadProgramFromText(const std::string & name, const std::string & source) {
+	std::map<std::string, Graph::Program*>::iterator i = m_Programs.find(name);
+	if (i != m_Programs.end())
+		return i->second;
+	Graph::Program * ret = gDevice->LoadProgramFromText(source);
+	m_Programs.insert(std::pair<std::string, Graph::Program*>(name, ret));
+	return ret;
 }
 
 Graph::Texture * Data::GetTexture(const std::string & filename) {

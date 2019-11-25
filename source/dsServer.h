@@ -9,10 +9,39 @@
 
 #include "dsData.h"
 #include "nckHttpServer.h"
+#include <map>
 
 _DS_BEGIN
 
-//class ServerRequestHandler;
+#define SERVER_OP_RELOAD_SHADER "reloadShader"
+
+class Server;
+
+class ServerOperation {
+public:
+	ServerOperation(Server * server, const std::string type, const std::string & object) {
+		m_Server = server;
+		m_Object = object;
+		m_Type = type;
+		m_Finished = false;
+	}
+	void SetError(const std::string & error) { m_Error = error; }
+
+	std::string GetObject() { return m_Object; }
+	std::string GetError() { return m_Error; }
+	std::string GetType() { return m_Type; }
+
+	bool IsFinished() { return m_Finished; }
+	void Finish() { m_Finished = true; }
+	void WaitToFinish();
+
+private:
+	Server * m_Server;
+	bool m_Finished;
+	std::string m_Type;
+	std::string m_Object;
+	std::string m_Error;
+};
 
 class Server : public Network::HttpCallbackHandler {
 public:
@@ -24,8 +53,11 @@ public:
     bool FreeRun();
     bool ReloadContents();
 
-    void FetchImage(Graph::Device * dev, int width, int height);
+	void DispatchOperation(ServerOperation * op);
+	bool FetchOperation(const std::string & type, ServerOperation ** operation);
+	void RemoveOperation(ServerOperation * op);
 
+    void FetchImage(Graph::Device * dev, int width, int height);
 
 private:
 
@@ -33,6 +65,10 @@ private:
     bool HandleRequest(Network::HttpRequest * request, Network::HttpResponse * response);
     void UnsupportedRequest(Network::HttpRequest * request);
 
+	Core::Mutex * dispatchOpMutex;
+	std::map < std::string, std::list<ServerOperation*>> dispatchOps;
+
+	std::string reloadResult;
     bool reloadContents;
     bool freeRunFlag;
     bool imageCopyFlag;

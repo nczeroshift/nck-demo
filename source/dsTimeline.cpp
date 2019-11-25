@@ -11,6 +11,7 @@
 #include "scenes/dsFloatText.h"
 #include "scenes/dsConsoleText.h"
 
+#include "scenes/dsTestScene.h"
 
 // Comentar/Descomentar o audiostream desactiva/activa o suporte de audio.
 //#define AUDIO_STREAM        "audio://soundtrack.ogg" 
@@ -32,7 +33,7 @@ dsTimeline::~dsTimeline() {
 }
 
 float dsTimeline::GetMaxDuration() {
-    return 160.0;
+    return 30*60.0;
 }
 
 void dsTimeline::LoadTimeline(Math::TimelineNode<DS::Stage*> * timeline) 
@@ -47,15 +48,30 @@ void dsTimeline::LoadTimeline(Math::TimelineNode<DS::Stage*> * timeline)
     renderLoading(100);
   
     // Fade In
+    /*
     {
         dsSolidColor * fadeIn = new dsSolidColor(data);
         fadeIn->SetColors(Math::Color4ub(0, 0, 0, 255), Math::Color4ub(0, 0, 0, 0), true);
         fadeIn->SetOrder(9999);
         output->AddStage(0, T_S(5), fadeIn);
     }
+    */
 
+	/*{
+		dsIdentify * test = new dsIdentify(data);
+		test->Load();
+		timeline->Insert(Math::TimelineItem<DS::Stage*>(0e6, GetMaxDuration()*1e6, new StageProxy(test)));
+		//output->AddStage(0, GetMaxDuration()*1e6, test);
+	}*/
 
-    timeline->Insert(Math::TimelineItem<DS::Stage*>(0e6, GetMaxDuration()*1e6, new StageProxy(output)));
+    {
+        dsTestScene * test = new dsTestScene(data);
+        test->Load();
+		timeline->Insert(Math::TimelineItem<DS::Stage*>(0e6, GetMaxDuration()*1e6, new StageProxy(test))); 
+    }
+
+   // timeline->Insert(Math::TimelineItem<DS::Stage*>(0e6, GetMaxDuration()*1e6, new StageProxy(output)));
+	//timeline->Insert(Math::TimelineItem<DS::Stage*>(0e6, GetMaxDuration()*1e6, new StageProxy(output)));
 }
 
 bool dsTimeline::LoadMusic(std::string * filename, int * sampleRate, int * buffers, int * fftSize) {

@@ -5,6 +5,7 @@
 */
 
 #include "dsTimeline.h"
+#include "nckUtils.h"
 
 //#define FULLSCREEN
 
@@ -146,26 +147,67 @@ void dsMain::Run() {
         
     while (!IsTearingDown())
     {
-        if (server) {
+        /*if (server) {
             if (!server->FreeRun()) {
                 Core::Thread::Wait(32);
             }
-        }
+        }*/
 
         dev->ClearColor(0, 0, 0, 1);
         dev->Clear();       
 
-        bool serverReload = false;
+		if (server != NULL) {
+			ServerOperation * op = NULL;
+			if (server->FetchOperation(SERVER_OP_RELOAD_SHADER, &op)){
+				rShaders = data->ReloadShaders();
+
+				if (rShaders.GetFailure()) {
+					std::list<std::string> shadersErrors;
+					data->GetShaderErrors(&shadersErrors);
+					std::string shdErrorString = "";
+
+					ListFor(std::string, shadersErrors, j) {
+						if (shdErrorString.empty())
+							shdErrorString += (*j);
+						else
+							shdErrorString += "\n" + (*j);
+					}
+
+					op->SetError(shdErrorString);
+				}
+
+				op->Finish();
+			}
+
+		}
+
+        /*bool serverReload = false;
         if (server) {
-            serverReload = server->ReloadContents();
+            serverReload = server->BeginReload();
         }
 
-        if (reloadResources || serverReload) {
+        if (reloadResources || serverReload) 
+		{
+			data->LockAccess();
             rShaders = data->ReloadShaders();
             rCompounds = data->ReloadCompounds();
             rTextures = data->ReloadTextures();
             reloadResources = false;
-        }
+			data->UnlockAccess();
+
+			std::list<std::string> shadersErrors;
+			data->GetShaderErrors(&shadersErrors);
+			std::string shdErrorString = "";
+
+			ListFor(std::string, shadersErrors, j) {
+				if (shdErrorString.empty())
+					shdErrorString += (*j);
+				else
+					shdErrorString += "\n" + (*j);
+			}
+
+			if (server) server->FinishReload(shdErrorString);
+        }*/
 
         std::list<Math::TimelineItem<DS::Stage*>> items;
         int64_t time = GetTime();
@@ -174,6 +216,8 @@ void dsMain::Run() {
             
         if (time_in_secs > this->GetMaxDuration())
             break;
+
+		Graph::Program::SetGlobalTime(time_in_secs);
 
         timeline.Get(time, &items); 
         items.sort(compareTLItem);
